@@ -20,7 +20,7 @@ class Telega
 		void setPoint(double  gotoX, double gotoY);
 		void turnOnAngle();
 		void goOnLine();
-		void pognali(double curX, double curY, double gotoX, double gotoY);
+		void pognali(double gotoX, double gotoY);
 		std::string getCommandTurn();
 		std::string getCommandMove();
 };
