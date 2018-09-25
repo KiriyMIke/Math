@@ -17,7 +17,7 @@ class Telega
 		
 	public:
 		Telega(double curX, double curY);
-		void setPoint(double  gotoX, double gotoY);
+		void setPoint(double gotoX, double gotoY);
 		void turnOnAngle();
 		void goOnLine();
 		void pognali(double curX, double curY, double gotoX, double gotoY);
