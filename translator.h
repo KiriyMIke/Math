@@ -14,6 +14,7 @@ class Telega
 		double _gotoAlpha;
 		std::string _commandForTurning;
 		std::string _commandForMoving;
+		const double _radius;
 		
 	public:
 		Telega(double curX, double curY);

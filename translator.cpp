@@ -13,7 +13,8 @@ Telega::Telega(double curX, double curY)
 	_curAlpha(0.0),
 	_gotoAlpha(0.0),
 	_commandForTurning(""),
-	_commandForMoving("")
+	_commandForMoving(""),
+	_radius(290.0)
 {
 
 }
@@ -27,7 +28,7 @@ void Telega::setPoint(double  gotoX, double gotoY)
 void Telega::turnOnAngle()
 {
 	double spdKoef;
-	double alpha = atan2(_gotoY - _curY, _gotoX - _curX) * 180.0 / M_PI;
+	double alpha = -atan2(_gotoY - _curY, _gotoX - _curX) * 180.0 / M_PI;
 	double thisAngleSmaller;
 	double orThisAngleSmaller;
 	
@@ -46,27 +47,23 @@ void Telega::turnOnAngle()
 
    	(_gotoAlpha + _curAlpha == alpha) ? spdKoef = -1.0 : spdKoef = 1.0;
 
-	double arcLength = round(M_PI * 200.0 * _gotoAlpha / 180.0 * 10.0) / 10.0; //длина дуги
+	double arcLength = round(M_PI * _radius * _gotoAlpha / 180.0 * 10.0) / 10.0; //длина дуги
 	spdKoef = round(spdKoef * 255.0 * 10.0) / 10.0;//коеф скорости +-
 
 	_curAlpha = alpha;//вектор направления телеги перезапись
-
+    std::cout << alpha << '\n';
 	if (arcLength == 0.0)
 	{
-		_commandForTurning = "ok";
+        _commandForTurning = intToStr(_curAlpha) + ".0 0.0 0.0 ";
+        _commandForTurning += intToStr(_curAlpha) + ".0 0.0 0.0 ";
+        _commandForTurning += intToStr(_curAlpha) + ".0 0.0 0.0";
 	}
 	else
-<<<<<<< HEAD
     {
 		_commandForTurning =  "30.0 " + intToStr(spdKoef) + ".0 " + intToStr(arcLength) + ".0 ";
-		_commandForTurning += "-30.0 " + intToStr(spdKoef) + ".0 " + intToStr(arcLength) + ".0 ";
+		_commandForTurning += "-30.0 " + intToStr(-spdKoef) + ".0 " + intToStr(arcLength) + ".0 ";
 		_commandForTurning += "-90.0 " + intToStr(spdKoef) + ".0 " + intToStr(arcLength) + ".0";
-=======
-	{
-		_commandForTurning =  "30.0 " + std::to_string((int)spdKoef) + ".0 " + std::to_string((int)arcLength) + ".0 ";
-		_commandForTurning += "-30.0 " + std::to_string((int)(-1.0 * spdKoef)) + ".0 " + std::to_string((int)arcLength) + ".0 ";
-		_commandForTurning += "-90.0 " + std::to_string((int)spdKoef) + ".0 " + std::to_string((int)arcLength) + ".0";
->>>>>>> 4fce83c831d1eb0573b680233fcef57d404e9908
+
 	}
 }
 
@@ -95,15 +92,10 @@ void Telega::pognali(double gotoX, double gotoY)
 	std::string command1 = getCommandTurn();
 	std::string command2 = getCommandMove();
 
-	if (command1 != "ok")
-	{
-		std::cout << command1 << "\n";//отправляем дальше
-	}
 
-	if (command2 != "ok")
-	{
-		std::cout << command2 << "\n";//отправляем дальше
-	}
+	std::cout << command1 << "\n";//отправляем дальше
+
+	std::cout << command2 << "\n";//отправляем дальше
 }
 
 std::string Telega::getCommandTurn()
