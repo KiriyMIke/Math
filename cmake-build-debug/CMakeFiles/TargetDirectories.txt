@@ -1,0 +1,4 @@
+/home/oleg/CLionProjects/Math/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/oleg/CLionProjects/Math/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/oleg/CLionProjects/Math/cmake-build-debug/CMakeFiles/telega.dir
+/home/oleg/CLionProjects/Math/cmake-build-debug/CMakeFiles/LIB.dir

@@ -1,0 +1,1 @@
+/usr/bin/c++  -g  -rdynamic CMakeFiles/telega.dir/main.cpp.o  -o telega libLIB.a 

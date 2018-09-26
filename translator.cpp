@@ -56,10 +56,17 @@ void Telega::turnOnAngle()
 		_commandForTurning = "ok";
 	}
 	else
+<<<<<<< HEAD
     {
 		_commandForTurning =  "30.0 " + intToStr(spdKoef) + ".0 " + intToStr(arcLength) + ".0 ";
 		_commandForTurning += "-30.0 " + intToStr(spdKoef) + ".0 " + intToStr(arcLength) + ".0 ";
 		_commandForTurning += "-90.0 " + intToStr(spdKoef) + ".0 " + intToStr(arcLength) + ".0";
+=======
+	{
+		_commandForTurning =  "30.0 " + std::to_string((int)spdKoef) + ".0 " + std::to_string((int)arcLength) + ".0 ";
+		_commandForTurning += "-30.0 " + std::to_string((int)(-1.0 * spdKoef)) + ".0 " + std::to_string((int)arcLength) + ".0 ";
+		_commandForTurning += "-90.0 " + std::to_string((int)spdKoef) + ".0 " + std::to_string((int)arcLength) + ".0";
+>>>>>>> 4fce83c831d1eb0573b680233fcef57d404e9908
 	}
 }
 
