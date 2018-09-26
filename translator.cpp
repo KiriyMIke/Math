@@ -2,7 +2,7 @@
 
 std::string intToStr(double n)
 {
-	return std::to_string(static_cast<int>(n));
+    return std::to_string(static_cast<int>(n));
 }
 
 
@@ -14,7 +14,7 @@ Telega::Telega(double curX, double curY)
 	_gotoAlpha(0.0),
 	_commandForTurning(""),
 	_commandForMoving(""),
-	_radius(270.0)
+	_radius(280.0)
 {
 
 }
@@ -28,7 +28,7 @@ void Telega::setPoint(double  gotoX, double gotoY)
 void Telega::turnOnAngle()
 {
 	double spdKoef;
-	double alpha = -atan2(_gotoY - _curY, _gotoX - _curX) * 180.0 / M_PI;
+	double alpha = atan2(_gotoY - _curY, _gotoX - _curX) * 180.0 / M_PI;
 	double thisAngleSmaller;
 	double orThisAngleSmaller;
 	
@@ -76,9 +76,9 @@ void Telega::goOnLine()
 	}
 	else
 	{
-		_commandForMoving =  "0.0 255.0 " + intToStr(gip) + ".0 ";
-		_commandForMoving += "0.0 255.0 " + intToStr(gip) + ".0 ";
-		_commandForMoving += "0.0 255.0 " + intToStr(gip) + ".0";
+		_commandForMoving =  "0.0 -255.0 " + intToStr(gip) + ".0 ";
+		_commandForMoving += "0.0 -255.0 " + intToStr(gip) + ".0 ";
+		_commandForMoving += "0.0 -255.0 " + intToStr(gip) + ".0";
 	}
 }
 
