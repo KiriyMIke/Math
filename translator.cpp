@@ -14,7 +14,7 @@ Telega::Telega(double curX, double curY)
 	_gotoAlpha(0.0),
 	_commandForTurning(""),
 	_commandForMoving(""),
-	_radius(290.0)
+	_radius(270.0)
 {
 
 }
@@ -88,6 +88,9 @@ void Telega::pognali(double gotoX, double gotoY)
 
 	turnOnAngle();
 	goOnLine();
+
+	_curX = _gotoX;
+    _curY = _gotoY;
 
 	std::string command1 = getCommandTurn();
 	std::string command2 = getCommandMove();
