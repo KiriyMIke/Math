@@ -12,6 +12,7 @@ class Telega
 		double _gotoY;
 		double _curAlpha;
 		double _gotoAlpha;
+		double _spdKoef;
 		std::string _commandForTurning;
 		std::string _commandForMoving;
 		std::string _commandForMovingBySecondTypeOfMoving;
@@ -24,6 +25,7 @@ class Telega
 		void goOnLine();
 		void pognali(double gotoX, double gotoY);
 		void secondTypeOfMoving(double gotoX, double gotoY);
+		void angleForsecondTypeOfMoving();
 		std::string getCommandTurn();
 		std::string getCommandMove();
 		std::string grtCommandMoveBySecondType();
