@@ -14,14 +14,16 @@ Telega::Telega(double curX, double curY)
 	_gotoAlpha(0.0),
 	_commandForTurning(""),
 	_commandForMoving(""),
-	_radius(280.0),
+	_radius(300.0),
 	_spdKoef(0.0)
 {
 
 }
 
-void Telega::setPoint(double  gotoX, double gotoY)
+void Telega::setPoints(double curX, double curY, double  gotoX, double gotoY)
 {
+	_curX = curX;
+	_curY = curY;
 	_gotoX = gotoX;
 	_gotoY = gotoY;
 }
@@ -51,7 +53,7 @@ void Telega::turnOnAngle()
 	_spdKoef = _spdKoef * 255.0;
 
 	_curAlpha = alpha;
- 	std::cout << alpha << " alpha _gotoAlpha " << _gotoAlpha << "\n"; 
+
 	if (arcLength == 0.0)
 	{
         _commandForTurning = intToStr(_curAlpha) + ".0 0.0 0.0 ";
@@ -76,15 +78,15 @@ void Telega::goOnLine()
 	}
 	else
 	{
-		_commandForMoving =  "0.0 -255.0 " + intToStr(hypotenuse) + ".0 ";
-		_commandForMoving += "0.0 -255.0 " + intToStr(hypotenuse) + ".0 ";
-		_commandForMoving += "0.0 -255.0 " + intToStr(hypotenuse) + ".0";
+		_commandForMoving =  "0.0 255.0 " + intToStr(hypotenuse) + ".0 ";
+		_commandForMoving += "0.0 255.0 " + intToStr(hypotenuse) + ".0 ";
+		_commandForMoving += "0.0 255.0 " + intToStr(hypotenuse) + ".0";
 	}
 }
 
-void Telega::pognali(double gotoX, double gotoY)
+void Telega::pognali(double curX, double curY, double gotoX, double gotoY)
 {
-	setPoint(gotoX, gotoY);
+	setPoints(curX, curY, gotoX, gotoY);
 
 	turnOnAngle();
 	goOnLine();
@@ -96,17 +98,17 @@ void Telega::pognali(double gotoX, double gotoY)
 	std::string command2 = getCommandMove();
 
 
-   std::cout << command1 << "\n";//отправляем дальше
+   std::cout << command1 << "\n";
 
-   std::cout << command2 << "\n";//отправляем дальше
+   std::cout << command2 << "\n";
 }
 
 void Telega::angleForsecondTypeOfMoving()
 {
 	double alpha = atan2(_gotoY - _curY, _gotoX - _curX) * 180.0 / M_PI;
-	
 	if (abs(alpha) <= 90.0)
 	{
+		_gotoAlpha = alpha;
 		_spdKoef = 1.0;
 	}
 	if (alpha < 180.0 && alpha > 90.0)
@@ -126,20 +128,23 @@ void Telega::angleForsecondTypeOfMoving()
 	}
 }
 
-void Telega::secondTypeOfMoving(double gotoX, double gotoY)
+void Telega::secondTypeOfMoving(double curX, double curY, double gotoX, double gotoY)
 {
-    setPoint(gotoX, gotoY);
+    setPoints(curX, curY, gotoX, gotoY);
     angleForsecondTypeOfMoving();
 
 
 	double hypotenuse = sqrt(pow((_gotoX - _curX), 2) + pow((_gotoY - _curY), 2));
 	_spdKoef *= 255.0;
+
 	_commandForMovingBySecondTypeOfMoving = intToStr(_gotoAlpha) + ".0 " + intToStr(_spdKoef) + ".0 " + intToStr(hypotenuse) + ".0 ";
 	_commandForMovingBySecondTypeOfMoving += intToStr(_gotoAlpha) + ".0 " + intToStr(_spdKoef) + ".0 " + intToStr(hypotenuse) + ".0 ";
 	_commandForMovingBySecondTypeOfMoving += intToStr(_gotoAlpha) + ".0 " + intToStr(_spdKoef) + ".0 " + intToStr(hypotenuse) + ".0";
 
 	std::cout << grtCommandMoveBySecondType() << "\n";
 
+	_curX = _gotoX;
+    _curY = _gotoY;
 }
 
 std::string Telega::grtCommandMoveBySecondType()
