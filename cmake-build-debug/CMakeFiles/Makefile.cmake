@@ -46,6 +46,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/telega.dir/DependInfo.cmake"
+  "CMakeFiles/math.dir/DependInfo.cmake"
   "CMakeFiles/LIB.dir/DependInfo.cmake"
   )

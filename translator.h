@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <string>
 #include <iostream>
-#include <vector>
+#include <array>
 
 class Telega
 {
@@ -16,13 +16,15 @@ class Telega
 		std::string _commandForMoving;
 		std::string _commandForMovingBySecondTypeOfMoving;
 		
-		std::vector<double> _arrayForTurningAllTelega;
+		std::array<double, 3> _arrayForTurningAllTelega;
 		double _speedForRiding;
 		const double _radius;
 		const double _maxSpeed;
 		const std::string _dotZero;
     	const std::string _space; 
     	const std::string _zeroDotZero;
+
+    	double getCourseAngle();
 		
 	public:
 		Telega();
@@ -32,7 +34,11 @@ class Telega
 		void firstTypeOfMoving(double curX, double curY, double gotoX, double gotoY);
 		void secondTypeOfMoving(double curX, double curY, double gotoX, double gotoY);
 		void angleForSecondTypeOfMoving();
+
 		std::string getCommandTurn();
 		std::string getCommandMove();
 		std::string getCommandMoveBySecondType();
 };
+
+double rad2deg(double rad);
+std::string intToStr(double n);

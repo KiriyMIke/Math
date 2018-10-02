@@ -5,6 +5,6 @@ project(translator)
 set(SOURCE_LIB translator.cpp)
 add_library(LIB STATIC ${SOURCE_LIB})
 
-add_executable(1 main.cpp)
+add_executable(math main.cpp)
 
-target_link_libraries(1 LIB)
+target_link_libraries(math LIB)

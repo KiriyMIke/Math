@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named telega
+# Target rules for targets named math
 
 # Build rule for target.
-telega: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 telega
-.PHONY : telega
+math: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 math
+.PHONY : math
 
 # fast build rule for target.
-telega/fast:
-	$(MAKE) -f CMakeFiles/telega.dir/build.make CMakeFiles/telega.dir/build
-.PHONY : telega/fast
+math/fast:
+	$(MAKE) -f CMakeFiles/math.dir/build.make CMakeFiles/math.dir/build
+.PHONY : math/fast
 
 #=============================================================================
 # Target rules for targets named LIB
@@ -142,7 +142,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) -f CMakeFiles/telega.dir/build.make CMakeFiles/telega.dir/main.cpp.o
+	$(MAKE) -f CMakeFiles/math.dir/build.make CMakeFiles/math.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -151,7 +151,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) -f CMakeFiles/telega.dir/build.make CMakeFiles/telega.dir/main.cpp.i
+	$(MAKE) -f CMakeFiles/math.dir/build.make CMakeFiles/math.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -160,7 +160,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) -f CMakeFiles/telega.dir/build.make CMakeFiles/telega.dir/main.cpp.s
+	$(MAKE) -f CMakeFiles/math.dir/build.make CMakeFiles/math.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 translator.o: translator.cpp.o
@@ -197,8 +197,8 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... math"
 	@echo "... rebuild_cache"
-	@echo "... telega"
 	@echo "... LIB"
 	@echo "... main.o"
 	@echo "... main.i"
