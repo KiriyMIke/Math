@@ -6,31 +6,37 @@ std::string intToStr(double n)
 }
 
 
-Telega::Telega(double curX, double curY)
+Telega::Telega()
 	:
-	_curX(curX),
-	_curY(curY),
+	_deltaX(0.0),
+	_deltaY(0.0),
 	_curAlpha(0.0),
 	_gotoAlpha(0.0),
+	_radius(300.0),
+	_spdKoef(0.0),
+	_speedForRiding(255.0),
+	_maxSpeed(255.0),
 	_commandForTurning(""),
 	_commandForMoving(""),
-	_radius(300.0),
-	_spdKoef(0.0)
+	_commandForMovingBySecondTypeOfMoving(""),
+	_dotZero(".0"),
+	_space(" "),
+	_zeroDotZero("0.0")
 {
-
+	_arrayForTurningAllTelega.push_back(30.0);
+	_arrayForTurningAllTelega.push_back(-30.0);
+	_arrayForTurningAllTelega.push_back(-90.0);
 }
 
-void Telega::setPoints(double curX, double curY, double  gotoX, double gotoY)
+void Telega::setDeltas(double curX, double curY, double  gotoX, double gotoY)
 {
-	_curX = curX;
-	_curY = curY;
-	_gotoX = gotoX;
-	_gotoY = gotoY;
+	_deltaX = gotoX - curX;
+	_deltaY = gotoY - curY;
 }
 
-void Telega::turnOnAngle()
+void Telega::turnOnAngleForFirstMovingType()
 {
-	double alpha = atan2(_gotoY - _curY, _gotoX - _curX) * 180.0 / M_PI;
+	double alpha = atan2(_deltaY, _deltaX) * 180.0 / M_PI;
 	double thisAngleSmaller;
 	double orThisAngleSmaller;
 	
@@ -50,62 +56,58 @@ void Telega::turnOnAngle()
    	(_gotoAlpha + _curAlpha == alpha) ? _spdKoef = -1.0 : _spdKoef = 1.0;
 
 	double arcLength = round(M_PI * _radius * _gotoAlpha / 180.0 * 10.0) / 10.0;
-	_spdKoef = _spdKoef * 255.0;
+	_speedForRiding = _maxSpeed * _spdKoef;
 
 	_curAlpha = alpha;
 
 	if (arcLength == 0.0)
 	{
-        _commandForTurning = intToStr(_curAlpha) + ".0 0.0 0.0 ";
-        _commandForTurning += intToStr(_curAlpha) + ".0 0.0 0.0 ";
-        _commandForTurning += intToStr(_curAlpha) + ".0 0.0 0.0";
+        _commandForTurning  = intToStr(_curAlpha) + _dotZero + _space + _zeroDotZero + _space + _zeroDotZero + _space;
+        _commandForTurning += intToStr(_curAlpha) + _dotZero + _space + _zeroDotZero + _space + _zeroDotZero + _space;
+        _commandForTurning += intToStr(_curAlpha) + _dotZero + _space + _zeroDotZero + _space + _zeroDotZero;
 	}
 	else
     {
-		_commandForTurning =  "30.0 " + intToStr(_spdKoef) + ".0 " + intToStr(arcLength) + ".0 ";
-		_commandForTurning += "-30.0 " + intToStr(-_spdKoef) + ".0 " + intToStr(arcLength) + ".0 ";
-		_commandForTurning += "-90.0 " + intToStr(_spdKoef) + ".0 " + intToStr(arcLength) + ".0";
-
+		_commandForTurning =  intToStr(_arrayForTurningAllTelega.at(0)) + _dotZero + _space + intToStr(_speedForRiding)  + _dotZero + _space + intToStr(arcLength) + _dotZero + _space;
+		_commandForTurning += intToStr(_arrayForTurningAllTelega.at(1)) + _dotZero + _space + intToStr(-_speedForRiding) + _dotZero + _space + intToStr(arcLength) + _dotZero + _space;
+		_commandForTurning += intToStr(_arrayForTurningAllTelega.at(2)) + _dotZero + _space + intToStr(_speedForRiding)  + _dotZero + _space + intToStr(arcLength) + _dotZero;
 	}
 }
 
-void Telega::goOnLine()
+void Telega::goOnLineForFirstMovingType()
 {
-	double hypotenuse = sqrt(pow((_gotoX - _curX), 2) + pow((_gotoY - _curY), 2));
+	double hypotenuse = sqrt(pow((_deltaX), 2) + pow((_deltaY), 2));
 	if (hypotenuse == 0)
 	{
-		_commandForMoving = "ok";
+		_commandForMoving = "ok";//we do not ride anywhere
 	}
 	else
 	{
-		_commandForMoving =  "0.0 255.0 " + intToStr(hypotenuse) + ".0 ";
-		_commandForMoving += "0.0 255.0 " + intToStr(hypotenuse) + ".0 ";
-		_commandForMoving += "0.0 255.0 " + intToStr(hypotenuse) + ".0";
+		_commandForMoving =  _zeroDotZero + _space + intToStr(_speedForRiding) + _dotZero + _space + intToStr(hypotenuse) + _dotZero + _space;
+		_commandForMoving += _zeroDotZero + _space + intToStr(_speedForRiding) + _dotZero + _space + intToStr(hypotenuse) + _dotZero + _space;
+		_commandForMoving += _zeroDotZero + _space + intToStr(_speedForRiding) + _dotZero + _space + intToStr(hypotenuse) + _dotZero;
 	}
 }
 
-void Telega::pognali(double curX, double curY, double gotoX, double gotoY)
+void Telega::firstTypeOfMoving(double curX, double curY, double gotoX, double gotoY)
 {
-	setPoints(curX, curY, gotoX, gotoY);
+	setDeltas(curX, curY, gotoX, gotoY);
 
-	turnOnAngle();
-	goOnLine();
-
-	_curX = _gotoX;
-    _curY = _gotoY;
+	turnOnAngleForFirstMovingType();
+	goOnLineForFirstMovingType();
 
 	std::string command1 = getCommandTurn();
 	std::string command2 = getCommandMove();
 
 
-   std::cout << command1 << "\n";
+   std::cout << command1 << '\n';
 
-   std::cout << command2 << "\n";
+   std::cout << command2 << '\n';
 }
 
-void Telega::angleForsecondTypeOfMoving()
+void Telega::angleForSecondTypeOfMoving()
 {
-	double alpha = atan2(_gotoY - _curY, _gotoX - _curX) * 180.0 / M_PI;
+	double alpha = atan2(_deltaY, _deltaX) * 180.0 / M_PI;
 	if (abs(alpha) <= 90.0)
 	{
 		_gotoAlpha = alpha;
@@ -130,24 +132,22 @@ void Telega::angleForsecondTypeOfMoving()
 
 void Telega::secondTypeOfMoving(double curX, double curY, double gotoX, double gotoY)
 {
-    setPoints(curX, curY, gotoX, gotoY);
-    angleForsecondTypeOfMoving();
+    setDeltas(curX, curY, gotoX, gotoY);
+    angleForSecondTypeOfMoving();
 
 
-	double hypotenuse = sqrt(pow((_gotoX - _curX), 2) + pow((_gotoY - _curY), 2));
-	_spdKoef *= 255.0;
+	double hypotenuse = sqrt(pow((_deltaX), 2) + pow((_deltaY), 2));
+	_speedForRiding = _maxSpeed * _spdKoef;
 
-	_commandForMovingBySecondTypeOfMoving = intToStr(_gotoAlpha) + ".0 " + intToStr(_spdKoef) + ".0 " + intToStr(hypotenuse) + ".0 ";
-	_commandForMovingBySecondTypeOfMoving += intToStr(_gotoAlpha) + ".0 " + intToStr(_spdKoef) + ".0 " + intToStr(hypotenuse) + ".0 ";
-	_commandForMovingBySecondTypeOfMoving += intToStr(_gotoAlpha) + ".0 " + intToStr(_spdKoef) + ".0 " + intToStr(hypotenuse) + ".0";
+	_commandForMovingBySecondTypeOfMoving =  intToStr(_gotoAlpha) + _dotZero + _space + intToStr(_speedForRiding) + _dotZero + _space + intToStr(hypotenuse) + _dotZero + _space;
+	_commandForMovingBySecondTypeOfMoving += intToStr(_gotoAlpha) + _dotZero + _space + intToStr(_speedForRiding) + _dotZero + _space + intToStr(hypotenuse) + _dotZero + _space;
+	_commandForMovingBySecondTypeOfMoving += intToStr(_gotoAlpha) + _dotZero + _space + intToStr(_speedForRiding) + _dotZero + _space + intToStr(hypotenuse) + _dotZero;
 
-	std::cout << grtCommandMoveBySecondType() << "\n";
+	std::cout << getCommandMoveBySecondType() << '\n';
 
-	_curX = _gotoX;
-    _curY = _gotoY;
 }
 
-std::string Telega::grtCommandMoveBySecondType()
+std::string Telega::getCommandMoveBySecondType()
 {
 	return _commandForMovingBySecondTypeOfMoving;
 }

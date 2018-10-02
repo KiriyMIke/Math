@@ -2,31 +2,37 @@
 #include <cstdlib>
 #include <string>
 #include <iostream>
+#include <vector>
 
 class Telega
 {
 	private:
-		double _curX;
-		double _curY;
-		double _gotoX;
-		double _gotoY;
+		double _deltaX;
+		double _deltaY;
 		double _curAlpha;
 		double _gotoAlpha;
 		double _spdKoef;
 		std::string _commandForTurning;
 		std::string _commandForMoving;
 		std::string _commandForMovingBySecondTypeOfMoving;
+		
+		std::vector<double> _arrayForTurningAllTelega;
+		double _speedForRiding;
 		const double _radius;
+		const double _maxSpeed;
+		const std::string _dotZero;
+    	const std::string _space; 
+    	const std::string _zeroDotZero;
 		
 	public:
-		Telega(double curX, double curY);
-		void setPoints(double curX, double curY, double gotoX, double gotoY);
-		void turnOnAngle();
-		void goOnLine();
-		void pognali(double curX, double curY, double gotoX, double gotoY);
+		Telega();
+		void setDeltas(double curX, double curY, double gotoX, double gotoY);
+		void turnOnAngleForFirstMovingType();
+		void goOnLineForFirstMovingType();
+		void firstTypeOfMoving(double curX, double curY, double gotoX, double gotoY);
 		void secondTypeOfMoving(double curX, double curY, double gotoX, double gotoY);
-		void angleForsecondTypeOfMoving();
+		void angleForSecondTypeOfMoving();
 		std::string getCommandTurn();
 		std::string getCommandMove();
-		std::string grtCommandMoveBySecondType();
+		std::string getCommandMoveBySecondType();
 };
